@@ -31,7 +31,7 @@ objectivec-sdk主要是提供给实现普通转账事务的构造，及孵化器
 ```
 ## 二、 JAVA-SDK文档
 
-##### 下载Release里最新的sdk-php.rar，运行server-0.0.1-SNAPSHOT.jar :java -jar server-0.0.1-SNAPSHOT.jar --server.port="your port";
+##### 下载Release里最新的sdk-php.rar，运行server-0.0.1-SNAPSHOT.jar :java -jar server-0.0.1-SNAPSHOT.jar --server.port="your port" --nodeNet="your node";
 ##### 所有的调用均为普通rpc
 ##### Content-Type: application/json;charset=UTF-8
 1.0 生成keystore文件
