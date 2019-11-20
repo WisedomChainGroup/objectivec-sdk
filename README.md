@@ -16,7 +16,7 @@ APPSDK是提供给APP调用的方法，主要是提供给实现普通转账事�
 * data   ：数据
 * statusCode：      
 
-## 2.0 JAVA-SDK文档
+## 2.0 IOS-SDK文档
 
 1.1 根据密码生成keystore
  ```
