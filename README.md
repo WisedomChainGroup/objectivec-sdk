@@ -250,3 +250,36 @@ APPSDK是提供给APP调用的方法，主要是提供给实现普通转账事�
  返回类型：String
  返回值：构造完成的多签部署原文
  ```
+ 
+2.8 构造多签转账原文
+ ```
+ TradeUtility.clientToCreateMultiSignTransfer
+ 参数：
+ 1）、发送地址的公钥（String）
+ 2）、私钥（String）
+ 3）、nonce（int）
+ 4）、资产哈希（String）
+ 5）、payload (Data）
+ payload说明：数组进行RLP编码后的Data数据，数组元素包含（发送地址类型0代表普通地址1代表多签地址Int、接收地址类型0代表普通地址1代表多签地址Int、空公钥数组Array、空签名数组Array、接收地址的公钥哈希String、转账金额Long、参与者地址公钥哈希数组Array）
+ 返回类型：String
+ 返回值：构造完成的多签转账原文
+ ```
+ 
+ 2.9 构造多签发行代币及转账事务
+ ```
+ TradeUtility.multiSignerAffair
+ 参数：
+ 1）、事务类型Type（String）  发行07 转账08
+ 2）、发送者公钥（String）
+ 3）、资产哈希（String）
+ 4）、nonce（int）
+ 5）、资产哈希（String）
+ 6）、私钥（String）
+ 7）、payloadType（String）  发行01 转账03
+ 8）、payload (Data）
+ payload说明：数组进行RLP编码后的Data数据
+ 发行资产：数组元素包含（资产哈希String、参与多签的地址数量Int、最小会签人数Int、公钥数组Array、签名数组Array、参与者地址公钥哈希数组Array）
+ 多签转账：数组元素包含（发送地址类型0代表普通地址1代表多签地址Int、接收地址类型0代表普通地址1代表多签地址Int、公钥数组Array、签名数组Array、接收地址的公钥哈希String、转账金额Long、参与者地址公钥哈希数组Array）
+ 返回类型：String
+ 返回值：构造完成的多签发行代币及转账事务
+ ```
