@@ -12,7 +12,7 @@ import CatCrypto
 class ArgonManage{
     
    static func argon2id(password:String,salt:String)->String?{
-        let hexpasswd = salt.bytes.toHexString()+password.bytes.toHexString()
+        let hexpasswd = salt+password
         
        // let salts = Data(hexString:salt)
         //print("salt==="+salt)

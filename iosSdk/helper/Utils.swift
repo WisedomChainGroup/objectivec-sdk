@@ -110,6 +110,12 @@ import Foundation
     }*/
     
     
-
+    func hw_getInt(_ array:[UInt8]) -> Int {
+        var value : UInt32 = 0
+        let data = NSData(bytes: array, length: array.count)
+        data.getBytes(&value, length: array.count)
+        value = UInt32(bigEndian: value)
+        return Int(value)
+    }
   
 }

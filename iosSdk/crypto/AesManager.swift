@@ -7,7 +7,8 @@
 //
 
 import Foundation
-import CryptoSwift
+//import CryptoSwift
+import TrustWalletCore
  class AesManager{
     
     
@@ -25,10 +26,11 @@ import CryptoSwift
         let ivs = Data(hexString: rmv)!
         let iv = [UInt8](ivs)
         
-        let aes = try? AES(key: bytes, blockMode: CTR(iv: iv), padding: .noPadding)
+        //let aes = try? AES(key: bytes, blockMode: CTR(iv: iv), padding: .noPadding)
         do {
             
-            let enstr = try   aes!.encrypt(str1).toHexString()  //加密后：23d883cbb361bcacb1af1a3d8ea39d75c254f52d1948628853bdfb296a53a187
+            let enstr = try AES.ctrencrypt(key: data2, data: data1, iv: ivs)!.toHexString()
+            //let enstr =    aes!.encrypt(str1).toHexString()  //加密后：23d883cbb361bcacb1af1a3d8ea39d75c254f52d1948628853bdfb296a53a187
             return enstr
             
         } catch VendingMachineError.invalidSelection {
@@ -61,12 +63,13 @@ import CryptoSwift
         let ivs = Data(hexString: rmv)!
         let iv = [UInt8](ivs)
         
-        let aes = try? AES(key: bytes, blockMode: CTR(iv: iv), padding: .noPadding)
+        //let aes = try? AES(key: bytes, blockMode: CTR(iv: iv), padding: .noPadding)
         
         do {
-            
-            let denstr = try   aes!.decrypt(str1).toHexString()
-            return denstr
+            //f0f9bf8ba9e90abe256724739dc490cd1b97527527fb75285d63ed356d42ed49
+            let denstr = try AES.ctrdecrypt(key: data1, data: data2, iv: ivs)!
+           // let denstr = try   aes!.decrypt(str1).toHexString()
+            return denstr.toHexString()
             
         } catch VendingMachineError.invalidSelection {
             //print("Invalid Selection.")

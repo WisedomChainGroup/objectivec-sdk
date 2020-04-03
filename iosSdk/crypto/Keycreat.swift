@@ -8,6 +8,7 @@
 
 import Foundation
 import TrustWalletCore
+
 class Keycreat{
     
     
@@ -32,18 +33,22 @@ class Keycreat{
             // print("长度错误！")
                return false;
         }
-        if secretKey.compare(t as String,options: NSString.CompareOptions.caseInsensitive).rawValue>0{
-             //print("值小于。。。")
+        if secretKey.compare(t as String,options: NSString.CompareOptions.caseInsensitive).rawValue<0{
+            // print("值小于。。。")
             return false ;
         }
-      // print("正确！")
+      //print("正确！")
             return true;
     }
     
     //根据私钥得到公钥
     static func CreatePublicKey(privateKey:String)-> String? {
-        let privateKey = PrivateKey(data: Data(hexString: privateKey)!)!
-        let publicKey = privateKey.getPublicKeyEd25519()
+        var pri:String = privateKey ;
+        if privateKey.count == 128{
+            pri = String(privateKey.prefix(64))
+        }
+        let privateKeys = PrivateKey(data: Data(hexString: pri)!)!
+        let publicKey = privateKeys.getPublicKeyEd25519()
         return publicKey.data.bytes.toHexString();
     }
     
@@ -54,6 +59,27 @@ class Keycreat{
         let sign = privateKey.sign(digest: message, curve: .ed25519)!
         return sign.hexString;
     }
-
+    
+    //验证签名
+    static func VerifySign(signStr:String,pubStr:String,msgStr:String)-> String? {
+        let message =  Data(hexString: msgStr)!
+        let sign =  Data(hexString: signStr)!
+        let pubStrData =  Data(hexString: pubStr)!
+        
+        if pubStr.count != 64{
+               return "0";
+        }
+        
+        let publicKey = PublicKey(data: pubStrData, type: .ed25519)!
+        let verified = publicKey.verify(signature: sign, message: message)
+      
+        if verified {
+            return "1"
+        }else
+        {
+            return "0"
+        }
+        
+    }
     
 }
