@@ -237,3 +237,16 @@ APPSDK是提供给APP调用的方法，主要是提供给实现普通转账事�
  返回类型：String
  返回值：构造完成的自定义资产增发、所有权、转账事务
  ```
+ 
+2.7 构造多签部署原文
+ ```
+ TradeUtility.clientToCreateMultiSign
+ 参数：
+ 1）、部署者地址的公钥（String）
+ 2）、私钥（String）
+ 3）、nonce（int）
+ 4）、payload (Data）
+ payload说明：数组进行RLP编码后的Data数据，数组元素包含（资产哈希String、参与多签的地址数量Int、最小会签人数Int、空公钥数组Array、空签名数组Array、参与者地址公钥哈希数组Array）
+ 返回类型：String
+ 返回值：构造完成的多签部署原文
+ ```
