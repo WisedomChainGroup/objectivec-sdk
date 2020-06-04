@@ -1,6 +1,6 @@
 # APPSDK方法说明
 
-APPSDK是提供给APP调用的方法，主要是提供给实现普通转账事务的构造，签名，发送，自定义资产，多签以及投票抵押等相关的操作，对于RPC来说，提供若干的接口，对于客户端来说，需要提供若干的实现方法，如下所示：
+APPSDK是提供给APP调用的方法，主要是提供给实现普通转账事务的构造，签名，发送，自定义资产，多签以及投票抵押等相关的操作，对于RPC来说，提供若干的接口，对于客户端来说，需要提供若干的实现方法，如下所示： 项目需引入第三方依赖库：TrustWallet pod 'TrustWalletCore', '~> 0.12.15'
 
 
 ## IOS-SDK文档
@@ -270,16 +270,36 @@ APPSDK是提供给APP调用的方法，主要是提供给实现普通转账事�
  TradeUtility.multiSignerAffair
  参数：
  1）、事务类型Type（String）  发行07 转账08
- 2）、发送者公钥（String）
- 3）、资产哈希（String）
- 4）、nonce（int）
- 5）、资产哈希（String）
- 6）、私钥（String）
- 7）、payloadType（String）  发行01 转账03
- 8）、payload (Data）
+ 2）、nonce（int）
+ 3）、发送者公钥（String）
+ 4）、资产哈希（String）
+ 5）、私钥（String）
+ 6）、payloadType（String）  发行01 转账03
+ 7）、payload (Data）
  payload说明：数组进行RLP编码后的Data数据
  发行资产：数组元素包含（资产哈希String、参与多签的地址数量Int、最小会签人数Int、公钥数组Array、签名数组Array、参与者地址公钥哈希数组Array）
  多签转账：数组元素包含（发送地址类型0代表普通地址1代表多签地址Int、接收地址类型0代表普通地址1代表多签地址Int、公钥数组Array、签名数组Array、接收地址的公钥哈希String、转账金额Long、参与者地址公钥哈希数组Array）
  返回类型：String
  返回值：构造完成的多签发行代币及转账事务
  ```
+ 
+ 2.10 构造条件支付部署转入提取事务
+ ```
+ TradeUtility.CreateRateheightlockruleForDeploy
+ 参数：
+ 1）、事务类型Type（String）  部署07  转入08  提取08
+ 2）、nonce（int）
+ 3）、发送者公钥（String）
+ 4）、资产哈希（String）
+ 5）、私钥（String）
+ 6）、payloadType（String）  部署04  转入08  提取09
+ 7）、payload (Data）
+ payload说明：数组进行RLP编码后的Data数据
+ 部署条件支付：数组元素包含（资产哈希String（WDC传20字节0）、转入资产倍数Long、间隔区块高度Int、资产提取比例String、接收地址公钥哈希String(不限定提取地址传20字节0)）
+ 转入资产：数组元素包含（转入金额Long）
+ 提取资产：数组元素包含（某笔转入事务哈希String、提取到的地址的公钥哈希String）
+ 返回类型：String
+ 返回值：构造完成的条件支付事务
+ ```
+
+

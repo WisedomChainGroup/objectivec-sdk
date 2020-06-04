@@ -16,7 +16,7 @@ class Keycreat{
     
     //创建私钥
     static func CreatePrivateKey()-> String? {
-        var privateKey:PrivateKey;
+        var privateKey:PrivateKey
         
         repeat{
             privateKey = PrivateKey()
@@ -28,18 +28,20 @@ class Keycreat{
     
     //密钥验证
    static func verifyKey (secretKey:String) ->Bool{
-        let t = "1000000000000000000000000000000014def9dea2f79cd65812631a5cf5d3ec";
+//        let t = "1000000000000000000000000000000014def9dea2f79cd65812631a5cf5d3ec"
+       
         if secretKey.count != 64{
             // print("长度错误！")
                return false;
         }
-        if secretKey.compare(t as String,options: NSString.CompareOptions.caseInsensitive).rawValue<0{
-            // print("值小于。。。")
-            return false ;
-        }
+//        if secretKey.caseInsensitiveCompare(t as String).rawValue < 0{
+//            // print("值小于。。。")
+//            return false ;
+//        }
       //print("正确！")
             return true;
     }
+    
     
     //根据私钥得到公钥
     static func CreatePublicKey(privateKey:String)-> String? {

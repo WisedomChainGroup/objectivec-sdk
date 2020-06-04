@@ -74,6 +74,10 @@ import SwiftyJSON
     
     }
     
+    
+
+    
+    
     //通过keystore获取钱包地址
     @objc public static func keyStoreToAddress(keyJson:String,password:String)->String{
      if WalletUtility.isjsonStyle(txt: keyJson) == true {

@@ -821,6 +821,62 @@ import SwiftyJSON
     }
     
     
+    /**
+     * 构造条件支付部署转入提取事务
+     * @param fromPubkeyStr    16进制
+     * @param prikeyStr 私钥    16进制
+     * @return
+     */
+    @objc public static func  CreateRateheightlockruleForDeploy(type:String,nonce:Int,fromPubkeyStr:String,toPublicHash:String,prikeyStr:String,payloadType:String,payloadData:Data)->String{
+        do {
+
+            //部署 07 04   转入08 08   提取08 09
+            let payloadDataStr = payloadData.toHexString()
+            let payloadLen =  (payloadData.count + 1).hw_to4Bytes
+            let allPayload = payloadLen().toHexString()+payloadType+payloadDataStr
+
+            //版本号
+            let version="01"
+            
+            let noneceBytes = (nonce+1).intToEightBytes() //UInt64(bigEndian: nonce+1)
+            
+            let gasPrice = (TradeUtility.GAS).intToEightBytes()
+            
+            let num =  NSDecimalNumber(string: "0")   //为了避免精度问题
+            let s = num.multiplying(by: NSDecimalNumber(string:TradeUtility.RATE)).stringValue
+            let amountLong = Int(s)!.intToEightBytes() //无符号字节
+            
+            //为签名留白
+            let signull = TradeUtility.SIGNNULL //Utils.randomStr(len: 64)
+
+            
+            //version,type,nonece,fromPubkeyHash,gasPrice,Amount,signull,toPubkeyHash,allPayload
+            let RawTransactionStr = version+type+noneceBytes.toHexString()+fromPubkeyStr+gasPrice.toHexString()+amountLong.toHexString()+signull+toPublicHash+allPayload
+            
+            print("RawTransactionStr=====\(RawTransactionStr)");
+            //签名数据
+            let sigall = Keycreat.Sign(msg: RawTransactionStr, pri: prikeyStr)!
+            
+            let tra = version+type+noneceBytes.toHexString()+fromPubkeyStr+gasPrice.toHexString()+amountLong.toHexString()+sigall+toPublicHash+allPayload
+            
+            let transha = Data(hexString:tra)!
+            
+            let txHash = Hash.keccak256(data:transha)
+            
+            let  transaction = version+txHash.toHexString()+type+noneceBytes.toHexString()+fromPubkeyStr+gasPrice.toHexString()+amountLong.toHexString()+sigall+toPublicHash+allPayload
+            let apiModel = ApiResultEntity()
+            
+            apiModel.txHash = txHash.toHexString()
+            apiModel.transaction = transaction
+            
+            return apiModel.toJSONString()!
+            
+        }catch {
+            return "5000"
+        }
+    }
+    
+    
     
 }
 
